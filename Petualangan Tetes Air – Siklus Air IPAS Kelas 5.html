@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Petualangan Tetes Air – IPAS Kelas 5</title>
+<style>
+:root{--bg:#dff3ff;--card:#fff;--ink:#12365a;--sky:#2f9bf0;--sun:#ffc533;--leaf:#3cc47c;--pink:#ff7a9c;--soft:#eaf6ff;--ok:#1f9d5c;--no:#e0524d;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f2742;--card:#183a5e;--ink:#eaf5ff;--soft:#1f4a75;--ok:#5fe0a1;--no:#ff8f8a}}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Baloo 2","Comic Sans MS","Trebuchet MS",system-ui,sans-serif;font-size:18px;line-height:1.5;min-height:100vh;overflow-x:hidden}
+.wrap{max-width:860px;margin:0 auto;padding:14px}
+.top{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.bar{flex:1;height:14px;background:var(--card);border-radius:9px;overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--sky),var(--leaf));border-radius:9px;transition:width .5s}
+.pill{background:var(--card);padding:2px 12px;border-radius:20px;font-weight:700}
+.slide{display:none;background:var(--card);border-radius:28px;padding:22px;border:4px solid var(--sky);box-shadow:0 8px 0 var(--sky)}
+.slide.on{display:block;animation:pop .5s}
+@keyframes pop{from{transform:scale(.94);opacity:0}to{transform:none;opacity:1}}
+h1{font-size:2.2rem;line-height:1.1;margin:.2em 0}
+h2{font-size:1.7rem;margin:.1em 0 .4em}
+.center{text-align:center}
+.btn{font:inherit;font-weight:700;background:var(--sun);color:#3a2a00;border:0;border-radius:18px;padding:10px 22px;box-shadow:0 5px 0 #d49a00;cursor:pointer;margin:6px 4px}
+.btn:active{transform:translateY(4px);box-shadow:0 1px 0 #d49a00}
+.btn.alt{background:var(--sky);color:#fff;box-shadow:0 5px 0 #1a6db5}
+.btn:disabled{opacity:.45;cursor:default}
+:focus-visible{outline:4px solid var(--pink);outline-offset:2px}
+.scene{position:relative;height:200px;border-radius:22px;background:linear-gradient(#8fd3ff,#d6f1ff 70%,#7ccf8f 70%);overflow:hidden;margin:10px 0}
+.scene .sun{position:absolute;right:18px;top:12px;font-size:56px;animation:spin 12s linear infinite}
+.scene .cloud{position:absolute;font-size:64px;top:22px;animation:drift 9s ease-in-out infinite alternate}
+.scene .sea{position:absolute;bottom:0;left:0;right:0;height:30%;background:#2f9bf0;opacity:.9}
+.drop{position:absolute;font-size:30px;top:90px;animation:fall 1.8s linear infinite}
+.hero-drop{font-size:90px;display:inline-block;animation:bob 2s ease-in-out infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes drift{to{transform:translateX(90px)}}
+@keyframes fall{from{transform:translateY(-10px);opacity:1}to{transform:translateY(90px);opacity:0}}
+@keyframes bob{50%{transform:translateY(-14px) rotate(6deg)}}
+.goal{display:flex;gap:12px;align-items:center;background:var(--soft);border-radius:18px;padding:10px 14px;margin:10px 0}
+.goal b{font-size:2rem}
+.tabs{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}
+.tab{font:inherit;font-weight:700;border:3px solid var(--sky);background:var(--card);color:var(--ink);border-radius:16px;padding:6px 14px;cursor:pointer}
+.tab[aria-selected="true"]{background:var(--sky);color:#fff}
+.panel{background:var(--soft);border-radius:18px;padding:12px 16px}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin:8px 0}
+.step{background:var(--soft);border-radius:16px;padding:8px 10px;font-size:.95rem}
+.step span{font-size:1.6rem;display:block}
+.chips{display:flex;flex-wrap:wrap;gap:10px;margin:10px 0}
+.chip{font:inherit;font-weight:700;background:var(--card);color:var(--ink);border:3px dashed var(--sky);border-radius:18px;padding:10px 14px;cursor:pointer;font-size:1rem}
+.chip.used{opacity:.35;pointer-events:none}
+.chip.shake{animation:shake .4s}
+@keyframes shake{25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+.slots{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px}
+.slot{min-height:64px;border-radius:16px;background:var(--soft);border:3px solid var(--sky);padding:8px;text-align:center;font-weight:700}
+.slot.full{background:#c8f3d9;color:#124d2c;animation:pop .4s}
+.msg{min-height:2.6em;font-weight:700;margin:6px 0}
+.tag{display:inline-block;background:var(--pink);color:#fff;border-radius:14px;padding:2px 12px;font-size:.9rem;font-weight:700}
+.opts{display:grid;gap:10px;margin:12px 0}
+.opt{font:inherit;text-align:left;background:var(--soft);color:var(--ink);border:3px solid var(--sky);border-radius:18px;padding:12px 16px;cursor:pointer;font-size:1.05rem}
+.opt:hover{transform:scale(1.02)}
+.opt.right{background:#c8f3d9;color:#124d2c;border-color:var(--ok);animation:pop .4s}
+.opt.wrong{background:#ffd9d6;color:#6b1814;border-color:var(--no);animation:shake .4s}
+.fb{border-radius:18px;padding:12px 16px;margin-top:8px;display:none}
+.fb.ok{display:block;background:#c8f3d9;color:#124d2c}
+.fb.no{display:block;background:#ffe3e0;color:#6b1814}
+.score{font-size:4rem;font-weight:800;color:var(--sky)}
+.stars{font-size:2.6rem}
+.reflect{display:grid;gap:8px;margin:10px 0}
+.reflect label{background:var(--soft);border-radius:14px;padding:8px 12px;display:block;cursor:pointer}
+.conf{position:fixed;top:-30px;font-size:28px;pointer-events:none;animation:cf 2.2s linear forwards;z-index:9}
+@keyframes cf{to{transform:translateY(110vh) rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="top"><span class="pill" id="pg">1/6</span><div class="bar"><i id="fill"></i></div><span class="pill" id="sc">⭐ 0</span></div>
+
+<!-- 1 Pembuka -->
+<section class="slide on" id="s0">
+<div class="center">
+<div class="hero-drop">💧</div>
+<h1>Petualangan Tetes Air</h1>
+<p>Ikut Titi si tetes air keliling bumi yuk!</p>
+</div>
+<div class="scene"><div class="sun">☀️</div><div class="cloud" style="left:10%">☁️</div><div class="cloud" style="left:45%;top:50px;animation-delay:-3s">☁️</div><span class="drop" style="left:20%">💧</span><span class="drop" style="left:50%;animation-delay:.6s">💧</span><span class="drop" style="left:75%;animation-delay:1.1s">💧</span><div class="sea"></div></div>
+<p class="center"><b>Mata Pelajaran:</b> IPAS &nbsp;|&nbsp; <b>Kelas:</b> 5 SD<br><b>Materi:</b> Siklus Air dan Dampaknya bagi Kehidupan</p>
+<p class="center"><label>Namamu: <input id="nm" placeholder="Tulis namamu" style="font:inherit;padding:6px 12px;border-radius:14px;border:3px solid var(--sky);width:200px;background:var(--card);color:var(--ink)"></label></p>
+<p class="center"><button class="btn" onclick="go(1)">Mulai Petualangan 🚀</button></p>
+</section>
+
+<!-- 2 Tujuan -->
+<section class="slide" id="s1">
+<h2>🎯 Tujuan Belajar Kita</h2>
+<p>Setelah petualangan ini, kamu bisa:</p>
+<div class="goal"><b>🧠</b><div><b>Memahami</b> bagaimana air berputar dari laut, ke langit, lalu kembali ke bumi.</div></div>
+<div class="goal"><b>🗣️</b><div><b>Menjelaskan</b> tahapan dan jenis siklus air dengan kata-katamu sendiri.</div></div>
+<div class="goal"><b>🔍</b><div><b>Menganalisis</b> dampak siklus air bagi kehidupan dan cara menjaganya.</div></div>
+<p class="center"><button class="btn alt" onclick="go(0)">⬅ Kembali</button><button class="btn" onclick="go(2)">Lanjut ➡</button></p>
+</section>
+
+<!-- 3 Materi -->
+<section class="slide" id="s2">
+<h2>📖 Materi Inti: Siklus Air</h2>
+<p>Siklus air adalah perjalanan air yang berputar terus-menerus. Tenaganya dari <b>panas matahari</b> ☀️.</p>
+<div class="steps">
+<div class="step"><span>🔥</span><b>Evaporasi</b><br>Air menguap jadi uap air.</div>
+<div class="step"><span>☁️</span><b>Kondensasi</b><br>Uap dingin berubah jadi awan.</div>
+<div class="step"><span>🌧️</span><b>Presipitasi</b><br>Awan berat, jatuh jadi hujan.</div>
+<div class="step"><span>🏞️</span><b>Infiltrasi &amp; aliran</b><br>Air meresap ke tanah dan mengalir ke sungai.</div>
+</div>
+<p><b>Ketuk jenis siklusnya:</b></p>
+<div class="tabs" role="tablist">
+<button class="tab" role="tab" aria-selected="true" onclick="tab(0)">💧 Siklus Pendek</button>
+<button class="tab" role="tab" aria-selected="false" onclick="tab(1)">🌬️ Siklus Sedang</button>
+<button class="tab" role="tab" aria-selected="false" onclick="tab(2)">❄️ Siklus Panjang</button>
+</div>
+<div class="panel" id="tp"></div>
+<p><b>Dampaknya:</b> air tawar untuk makhluk hidup 🌱, menjaga cuaca, dan membantu pertanian. Kalau hutan ditebang atau sungai tercemar, siklus air terganggu dan bisa terjadi banjir atau kekeringan.</p>
+<p class="center"><button class="btn alt" onclick="go(1)">⬅ Kembali</button><button class="btn" onclick="go(3)">Lanjut ➡</button></p>
+</section>
+
+<!-- 4 Aktivitas -->
+<section class="slide" id="s3">
+<h2>🎮 Aktivitas: Susun Perjalanan Titi</h2>
+<p>Ketuk kartu sesuai urutan perjalanan air, dari awal sampai kembali ke laut.</p>
+<div class="slots" id="slots"></div>
+<div class="chips" id="chips"></div>
+<div class="msg" id="am">Mulai dari kartu pertama ya! 🌊</div>
+<p class="center"><button class="btn alt" onclick="initAct()">🔄 Ulangi</button><button class="btn" id="anext" onclick="go(4)" disabled>Ke Kuis ➡</button></p>
+</section>
+
+<!-- 5 Kuis -->
+<section class="slide" id="s4">
+<div><span class="tag" id="qk"></span> <span class="pill" id="qn"></span></div>
+<h2 id="qt"></h2>
+<div class="opts" id="qo"></div>
+<div class="fb" id="fb"></div>
+<p class="center"><button class="btn" id="qnext" onclick="nextQ()" style="display:none">Lanjut ➡</button></p>
+</section>
+
+<!-- 6 Hasil -->
+<section class="slide" id="s5">
+<div class="center">
+<div class="stars" id="stars"></div>
+<h2 id="rh"></h2>
+<div class="score" id="rs"></div>
+<p id="rm"></p>
+</div>
+<h2>📝 Umpan Balik dan Refleksi</h2>
+<p>Centang yang sudah kamu rasakan:</p>
+<div class="reflect">
+<label><input type="checkbox" class="rf"> Aku bisa menyebutkan tahapan siklus air.</label>
+<label><input type="checkbox" class="rf"> Aku bisa membedakan siklus pendek, sedang, dan panjang.</label>
+<label><input type="checkbox" class="rf"> Aku tahu dampak siklus air bagi kehidupan.</label>
+<label><input type="checkbox" class="rf"> Aku mau ikut menjaga air dan menanam pohon.</label>
+</div>
+<p class="msg" id="rfm"></p>
+<p><b>Ceritakan:</b> satu hal baru yang kamu pelajari dan satu cara kamu menghemat air di rumah.</p>
+<textarea rows="3" style="width:100%;font:inherit;border-radius:14px;border:3px solid var(--sky);padding:8px;background:var(--card);color:var(--ink)" placeholder="Tulis jawabanmu di sini..."></textarea>
+<p class="center"><button class="btn alt" onclick="restart()">🔁 Main Lagi</button></p>
+</section>
+</div>
+
+<script>
+var cur=0,score=0,qi=0,done=false;
+var total=6;
+function $(i){return document.getElementById(i)}
+function name(){var n=$('nm').value.trim();return n?n:'Teman Hebat'}
+function go(n){
+  document.querySelectorAll('.slide').forEach(function(s){s.classList.remove('on')});
+  $('s'+n).classList.add('on');cur=n;
+  $('pg').textContent=(n+1)+'/'+total;
+  $('fill').style.width=((n+1)/total*100)+'%';
+  if(n===2)tab(0);
+  if(n===3)initAct();
+  if(n===4){qi=0;score=0;upd();showQ()}
+  if(n===5)result();
+  window.scrollTo(0,0);
+}
+function upd(){$('sc').textContent='⭐ '+score}
+var tabs=[
+ '<b>💧 Siklus Pendek</b><br>Air laut menguap ➜ jadi awan ➜ hujan turun <b>langsung di laut</b>. Perjalanannya paling singkat.',
+ '<b>🌬️ Siklus Sedang</b><br>Air laut menguap ➜ awan <b>dibawa angin ke daratan</b> ➜ hujan di daratan ➜ mengalir lewat sungai ke laut.',
+ '<b>❄️ Siklus Panjang</b><br>Awan terbawa ke daerah <b>sangat dingin</b> ➜ turun jadi salju ➜ membentuk gletser ➜ mencair dan mengalir ke laut. Paling lama.'
+];
+function tab(i){
+  document.querySelectorAll('.tab').forEach(function(t,k){t.setAttribute('aria-selected',k===i)});
+  $('tp').innerHTML=tabs[i];
+}
+/* Aktivitas */
+var order=[['🌊','Air laut dan sungai'],['🔥','Evaporasi'],['☁️','Kondensasi'],['🌧️','Presipitasi'],['🏞️','Infiltrasi dan aliran'],['🌊','Kembali ke laut']];
+var nxt=0;
+function initAct(){
+  nxt=0;$('anext').disabled=true;$('am').textContent='Mulai dari kartu pertama ya! 🌊';
+  $('slots').innerHTML=order.map(function(o,i){return '<div class="slot" id="sl'+i+'">Langkah '+(i+1)+'</div>'}).join('');
+  var idx=[3,0,5,2,4,1];
+  $('chips').innerHTML=idx.map(function(i){return '<button class="chip" id="ch'+i+'" onclick="pick('+i+')">'+order[i][0]+' '+order[i][1]+'</button>'}).join('');
+}
+function pick(i){
+  var c=$('ch'+i);
+  if(i===nxt){
+    var s=$('sl'+i);s.className='slot full';s.textContent=order[i][0]+' '+order[i][1];
+    c.classList.add('used');nxt++;
+    if(nxt===order.length){$('am').textContent='Hebat, '+name()+'! Perjalanan Titi lengkap 🎉';$('anext').disabled=false;confetti()}
+    else $('am').textContent='Benar! Lanjut ke langkah berikutnya 👍';
+  }else{
+    c.classList.add('shake');setTimeout(function(){c.classList.remove('shake')},400);
+    $('am').textContent='Belum tepat. Coba pikirkan apa yang terjadi setelah langkah '+nxt+' 🤔';
+  }
+}
+/* Kuis */
+var Q=[
+['Siklus Pendek','Air laut menguap, menjadi awan, lalu hujan turun langsung di laut. Ini adalah siklus air ...',['Pendek','Sedang','Panjang'],0,'Hujan jatuh langsung di laut, jadi perjalanannya pendek.'],
+['Siklus Pendek','Perubahan air menjadi uap air karena panas matahari disebut ...',['Kondensasi','Evaporasi','Presipitasi'],1,'Evaporasi artinya penguapan.'],
+['Siklus Pendek','Pada siklus pendek, hujan turun di ...',['Daratan','Gunung es','Laut'],2,'Awan tidak dibawa ke daratan, jadi hujan jatuh di laut.'],
+['Siklus Sedang','Angin membawa awan dari laut ke daratan, hujan turun, lalu air mengalir ke laut. Ini siklus ...',['Pendek','Sedang','Panjang'],1,'Ada peran angin yang membawa awan ke daratan.'],
+['Siklus Sedang','Apa yang membedakan siklus sedang dari siklus pendek?',['Ada salju','Awan dibawa angin ke daratan','Tidak ada hujan'],1,'Siklus sedang melewati daratan dan sungai.'],
+['Siklus Sedang','Air hujan di daratan mengalir lewat sungai menuju ...',['Laut','Awan','Gletser'],0,'Sungai mengalirkan air kembali ke laut.'],
+['Siklus Panjang','Uap air jatuh sebagai salju, membentuk gletser, lalu mencair ke laut. Ini siklus ...',['Pendek','Sedang','Panjang'],2,'Prosesnya lama karena melewati es dan salju.'],
+['Siklus Panjang','Siklus air panjang terjadi di daerah ...',['Sangat dingin dan bersalju','Gurun panas','Tepi pantai'],0,'Salju dan gletser hanya ada di tempat yang sangat dingin.'],
+['Siklus Panjang','Hutan gundul membuat air hujan sulit meresap ke tanah. Dampaknya ...',['Air tanah makin banyak','Mudah terjadi banjir','Hujan tidak pernah turun'],1,'Tanpa pohon, air langsung mengalir deras ke permukaan.'],
+['Siklus Panjang','Mengapa menanam pohon dan menghemat air penting bagi siklus air?',['Supaya air tetap tersedia dan seimbang','Supaya awan hilang','Supaya laut kering'],0,'Pohon menyimpan air dan menghemat air menjaga sumber air.']
+];
+var good=['Hebat sekali! Kamu pintar!','Keren! Terus semangat!','Mantap! Otakmu secerdas air yang mengalir!','Luar biasa! Pertahankan ya!'];
+var bad=['Tidak apa-apa, ayo coba lagi di soal berikutnya!','Jangan menyerah, kamu pasti bisa!','Salah itu bagian dari belajar. Semangat!','Hampir benar! Terus berlatih ya!'];
+var locked=false;
+function showQ(){
+  var q=Q[qi];locked=false;
+  $('qk').textContent=q[0];$('qn').textContent='Soal '+(qi+1)+' dari '+Q.length;
+  $('qt').textContent=q[1];
+  $('qo').innerHTML=q[2].map(function(t,i){return '<button class="opt" onclick="ans('+i+')">'+['A','B','C'][i]+'. '+t+'</button>'}).join('');
+  $('fb').className='fb';$('qnext').style.display='none';
+}
+function ans(i){
+  if(locked)return;locked=true;
+  var q=Q[qi],ok=i===q[3],o=document.querySelectorAll('.opt');
+  o[i].classList.add(ok?'right':'wrong');o[q[3]].classList.add('right');
+  var f=$('fb');
+  if(ok){score+=10;upd();f.className='fb ok';f.innerHTML='✅ <b>'+good[qi%4]+'</b><br>Skormu sekarang: <b>'+score+'</b> (+10)';confetti(10)}
+  else{f.className='fb no';f.innerHTML='💪 <b>'+bad[qi%4]+'</b><br>Skormu tetap: <b>'+score+'</b> (+0)<br>Penjelasan: '+q[4]}
+  $('qnext').style.display='inline-block';
+  $('qnext').textContent=qi===Q.length-1?'Lihat Hasil 🏆':'Lanjut ➡';
+}
+function nextQ(){if(qi<Q.length-1){qi++;showQ()}else go(5)}
+function result(){
+  var st=score>=90?3:score>=60?2:1;
+  $('stars').textContent='⭐'.repeat(st)+'☆'.repeat(3-st);
+  $('rh').textContent=name()+', petualanganmu selesai!';
+  $('rs').textContent=score+' / 100';
+  $('rm').textContent=score>=90?'Kamu Pahlawan Air! Penjelasanmu sangat tepat.':score>=60?'Bagus! Sedikit lagi kamu jadi Pahlawan Air. Baca materi sekali lagi ya.':'Semangat! Ulangi materi dan aktivitas, lalu coba kuis lagi. Kamu pasti bisa!';
+  if(score>=60)confetti(25);
+}
+document.addEventListener('change',function(e){
+  if(e.target.classList.contains('rf')){
+    var n=document.querySelectorAll('.rf:checked').length;
+    $('rfm').textContent=n===4?'Wah, kamu sudah paham semuanya! 🌟':n>0?'Bagus, kamu sudah '+n+' dari 4. Terus belajar ya!':'';
+  }
+});
+function confetti(n){
+  var e=['💧','⭐','🌈','🎉','💙'];
+  for(var i=0;i<(n||30);i++){
+    var d=document.createElement('div');d.className='conf';
+    d.textContent=e[i%e.length];d.style.left=Math.random()*95+'vw';
+    d.style.animationDelay=(Math.random()*.6)+'s';
+    document.body.appendChild(d);
+    setTimeout(function(x){return function(){x.remove()}}(d),3200);
+  }
+}
+function restart(){document.querySelectorAll('.rf').forEach(function(c){c.checked=false});$('rfm').textContent='';go(0)}
+go(0);
+</script>
+</body>
+</html>
